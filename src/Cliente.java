@@ -1,7 +1,8 @@
 public class Cliente 
 {
-  private float _tempoAtendimento;
-  private Cliente _proxCliente;
+	
+  private float _tempoAtendimento; // Tempo de Atendimento do Cliente
+  private Cliente _proxCliente; //Referece ao proximo cliente a ser atendido
     
   /*
    * Construtor da classe Cliente
@@ -9,13 +10,13 @@ public class Cliente
   public Cliente(float tempoAtendimento)
   {
 	 this._proxCliente = null; 
-	 this.setTempoAtendimento(tempoAtendimento);
+	 this.SetTempoAtendimento(tempoAtendimento);
   }
 
   /*
    * Retorna o próximo cliente a ser atendido
    * */
-  public Cliente getProxCliente() 
+  public Cliente GetProxCliente() 
   {
 	 return this._proxCliente;
   }
@@ -23,7 +24,7 @@ public class Cliente
   /*
    * Seta o próximo cliente a ser atendido
    * */
-  public void setProxCliente(Cliente _proxCliente) 
+  public void SetProxCliente(Cliente _proxCliente) 
   {
 	 this._proxCliente = _proxCliente;
   }
@@ -31,7 +32,7 @@ public class Cliente
   /*
    * Seta o tempo de atendimento do cliente
    * */
-  public void setTempoAtendimento(float tempoAtendimento) 
+  public void SetTempoAtendimento(float tempoAtendimento) 
   {
 	 this._tempoAtendimento = tempoAtendimento;
   }
@@ -39,7 +40,7 @@ public class Cliente
   /*
    * Retorna o tempo de atendimento do cliente
    * */
-  public float getTempoAtendimento() 
+  public float GetTempoAtendimento() 
   {
 	  return this._tempoAtendimento;
   }

@@ -15,12 +15,10 @@ public class Fila {
 		this._ultimoCliente = null;		
 	} 
 	
-	//Testando controlador de fonte.
-	
 	/*
 	 * Retorna o último Cliente da fila
 	 * */
-	public Cliente getUltimoCliente() 
+	public Cliente GetUltimoCliente() 
 	{
 		return this._ultimoCliente;
 	}
@@ -28,7 +26,7 @@ public class Fila {
 	/*
 	 * Retorna o primeiro Cliente da fila
 	 * */
-	public Cliente getPrimeiroCliente() 
+	public Cliente GetPrimeiroCliente() 
 	{
 		return this._primeiroCliente;
 	}
@@ -36,7 +34,7 @@ public class Fila {
 	/*
 	 * Retorna se a fila se encontra vazia
 	 * */
-	public Boolean filaVazia()
+	public Boolean FilaVazia()
 	{
 	  Boolean retorno = false;	
 	  if(this._primeiroCliente == null && this._ultimoCliente == null)
@@ -54,13 +52,13 @@ public class Fila {
 	   Cliente cliente = null;	
 	   int count = 0;
 	   
-	   if(!this.filaVazia())
+	   if(!this.FilaVazia())
 	   {			   
 		   cliente = this._primeiroCliente;
 		   while(cliente != null)
 		   {
 			   count++;
-			   cliente = cliente.getProxCliente();
+			   cliente = cliente.GetProxCliente();
 		   }  
 	   }	   		
 	   return count;	
@@ -73,13 +71,13 @@ public class Fila {
 	{		
 		Cliente novoCliente = new Cliente(tempoAtendimento);
 		
-		if(this.filaVazia())
+		if(this.FilaVazia())
 		{
 			this._primeiroCliente = novoCliente;
 		}
 		else
 		{
-			this._ultimoCliente.setProxCliente(novoCliente);
+			this._ultimoCliente.SetProxCliente(novoCliente);
 		}
 		this._ultimoCliente = novoCliente;				
 		return true;
@@ -93,7 +91,7 @@ public class Fila {
 	{
 		Cliente aux = null;
 		Boolean retorno = false;
-		if(!this.filaVazia()) // Se Fila não está vazia 
+		if(!this.FilaVazia()) // Se Fila não está vazia 
 		{
 			
 			if(this._primeiroCliente == this._ultimoCliente)
@@ -101,7 +99,7 @@ public class Fila {
 				this._ultimoCliente = null;
 			}			
 			aux = this._primeiroCliente;
-			this._primeiroCliente = this._primeiroCliente.getProxCliente();
+			this._primeiroCliente = this._primeiroCliente.GetProxCliente();
 			aux = null;
 			
 			retorno = true;
@@ -125,13 +123,13 @@ public class Fila {
 		float tempoTotal = 0F;		
 		Cliente cliente = null;	
 		  
-		if(!this.filaVazia())
+		if(!this.FilaVazia())
 		{			   
 		  cliente = this._primeiroCliente;
 		  while(cliente != null)
 	      {
-			 tempoTotal += cliente.getTempoAtendimento(); 
-			 cliente = cliente.getProxCliente();
+			 tempoTotal += cliente.GetTempoAtendimento(); 
+			 cliente = cliente.GetProxCliente();
 		  }  
 		}
 		return tempoTotal;

@@ -16,7 +16,7 @@ public class Caixa
 	/*
 	 * Retorna a fila
 	 * */
-	public Fila getFila() 
+	public Fila GetFila() 
 	{
 		return this._fila;
 	}
@@ -24,14 +24,18 @@ public class Caixa
 	/*
 	 * Seta Status do caixa
 	 * */
-	public void setAberto(Boolean aberto) {
+	public void SetAberto(Boolean aberto) 
+	{
 		this._aberto = aberto;
 	}
 
 	/*
 	 * Retorna o Status do Caixa
 	 * */
-	public Boolean getAberto() {
+	public Boolean GetAberto() 
+	{
+
 		return this._aberto;
 	}	
+	
 }

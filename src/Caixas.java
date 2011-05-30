@@ -1,8 +1,10 @@
 public class Caixas 
 {
-	private Caixa[] _caixas;
-	private float _tempoMaxFila; 
-	private final int NumeroCaixas;
+	private final int NumeroCaixas; //Numéro Total de Caixas
+	
+	private Caixa[] _caixas; // Caixas
+	private float _tempoMaxFila; //Tempo maximo da fila
+	private int _nroCaixasAberto; //Número de Caixas em aberto
 	
 	/*
 	 * Construtor da classe Caixas
@@ -10,18 +12,26 @@ public class Caixas
 	public Caixas()
 	{
 		this.NumeroCaixas = 100;
+		this._nroCaixasAberto = 0;
 		this._caixas = new Caixa[NumeroCaixas];		
-	}
+	}	
+	
+	/*
+	 * Retorna o número de caixas aberto
+	 * */
+	public int NroCaixasAberto()
+	{
+		return this._nroCaixasAberto;
+	} 
 	
 	/*
 	 * Tempo Máximo de Atendimento da Fila
 	 * */
-	public void setTempoMaxFila(float _tempoMaxFila) 
+	public void SetTempoMaxFila(float _tempoMaxFila) 
 	{
 		this._tempoMaxFila = _tempoMaxFila;
 	}
-	
-	
+		
 	/*
 	 * Adicionar Cliente ao Caixa
 	 */
@@ -30,10 +40,10 @@ public class Caixas
 		Caixa caixaAberto = null;
 		Boolean retorno = false;
 		
-		caixaAberto = this.retornarCaixaAberto();
+		caixaAberto = this.RetornarCaixaAberto();
 		if(caixaAberto != null)
 		{			
-			retorno = caixaAberto.getFila().InserirCliente(tempoAtendimento);			
+			retorno = caixaAberto.GetFila().InserirCliente(tempoAtendimento);			
 		}
 		return retorno;			
 	}
@@ -46,13 +56,13 @@ public class Caixas
 		// Quando remover o cliente deve ser informado o caixa??		
 		for(Caixa caixa : _caixas)
 		{
-		  if(caixa.getAberto()) //Verifica se o caixa esta aberto
+		  if(caixa.GetAberto()) //Verifica se o caixa esta aberto
 		  {
-			  if(caixa.getFila().RemoverCliente()) // Remove o Cliente do caixa
+			  if(caixa.GetFila().RemoverCliente()) // Remove o Cliente do caixa
 			  {
-				  if(caixa.getFila().filaVazia()) // Verifica se a fila do caia ficou vazia
+				  if(caixa.GetFila().FilaVazia()) // Verifica se a fila do caia ficou vazia
 				  {
-					  this.fecharCaixa(caixa);
+					  this.FecharCaixa(caixa);
 				  }
 			  }
 		  }
@@ -63,13 +73,14 @@ public class Caixas
 	/*
 	 * Abrir um novo caixa
 	 * */
-	private Caixa abrirCaixa()
+	private Caixa AbrirCaixa()
 	{
 		for(Caixa caixa : _caixas)
 		{
-		  if(!caixa.getAberto())
+		  if(!caixa.GetAberto())
 		  {
-			  caixa.setAberto(true);
+			  this._nroCaixasAberto++;
+			  caixa.SetAberto(true);
 			  return caixa;
 		  }
 		}
@@ -79,15 +90,16 @@ public class Caixas
 	/*
 	 * Fechar o caixa
 	 * */
-	private void fecharCaixa(Caixa caixa)
+	private void FecharCaixa(Caixa caixa)
 	{
-		caixa.setAberto(false);	
+		this._nroCaixasAberto--;
+		caixa.SetAberto(false);	
 	}
 	
 	/*
 	 * Retorna Caixa Aberto com menor tempo de atendimento
 	 * */
-	private Caixa retornarCaixaAberto()
+	private Caixa RetornarCaixaAberto()
 	{		
 		Caixa retorno = null;
 		for(Caixa caixa : _caixas)
@@ -98,15 +110,15 @@ public class Caixas
 			}
 			else
 			{
-				if(caixa.getFila().TempoAtualFila() < retorno.getFila().TempoAtualFila())
+				if(caixa.GetFila().TempoAtualFila() < retorno.GetFila().TempoAtualFila())
 				{
 					retorno = caixa; 
 				}
 			}
 		}
-		if(retorno.getFila().TempoAtualFila() >= this._tempoMaxFila)
+		if(retorno.GetFila().TempoAtualFila() >= this._tempoMaxFila)
 		{
-	      retorno = abrirCaixa(); 
+	      retorno = AbrirCaixa(); 
 		}	   	   
 		return retorno;
 	}

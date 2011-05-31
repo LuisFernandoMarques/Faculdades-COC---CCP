@@ -1,4 +1,6 @@
 
+
+
 public class Caixa 
 {	
 	private Fila _fila;

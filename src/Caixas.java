@@ -1,3 +1,15 @@
+/*
+ * Name: Caixas
+ * Author: 
+ * 		Henrique Sylvestre da Silva
+ * 		Iser Estable
+ * 		Luis Fernando Marques
+ * 		Marcos Diego de Azevedo
+ * Date: 01/06/2011
+ * Description:
+ * 	 Classe responsavel por armazenar os caixas
+ */
+
 public class Caixas 
 {
 	private final int NumeroCaixas; //Numéro Total de Caixas

@@ -1,3 +1,16 @@
+/*
+ * Name: Cliente
+ * Author: 
+ * 		Henrique Sylvestre da Silva
+ * 		Iser Estable
+ * 		Luis Fernando Marques
+ * 		Marcos Diego de Azevedo
+ * Date: 01/06/2011
+ * Description:
+ * 	 Classe responsavel por armazenar 
+ */
+
+
 public class Cliente 
 {
 	

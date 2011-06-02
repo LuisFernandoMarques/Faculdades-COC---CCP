@@ -5,7 +5,7 @@ public class Fila {
 	 * */ 
 	private Cliente _primeiroCliente;
 	private Cliente _ultimoCliente;
-		
+	
 	/*
 	 * Construtor da Classe
 	 * */ 

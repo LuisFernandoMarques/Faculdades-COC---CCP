@@ -7,7 +7,7 @@
  * 		Marcos Diego de Azevedo
  * Date: 01/06/2011
  * Description:
- * 	 Classe responsavel por armazenar 
+ * 	 Classe responsavel por definir o tipo fila 
  */
 
 public class Fila {

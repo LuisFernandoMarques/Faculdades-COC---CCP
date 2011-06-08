@@ -125,15 +125,23 @@ public class Program {
 	private static boolean AtenderCliente()
 	{
 		boolean retorno = false;
+		int numeroCaixa = 0;
 		try
 		{
-			
-			
-			retorno = true;
+			numeroCaixa = Integer.parseInt(JOptionPane.showInputDialog("Entre com o número do caixa?"));
+			if(numeroCaixa < 0 || numeroCaixa == 0)
+			{
+				JOptionPane.showMessageDialog(null, "O número do caixa não pode ser 0 ou menor que 0");
+				retorno = false;
+			}
+			else
+			{
+				retorno = _caixas.RemoverCliente(numeroCaixa);
+			}
 		}
 		catch(Exception ex)
 		{
-			TratarErro("Erro ao imprimir as informações dos caixas!", ex);
+			TratarErro(String.format("Erro ao atender o cliente do caixa: {0}", numeroCaixa), ex);
 		}
 		return retorno;
 	}

@@ -1,3 +1,5 @@
+import org.omg.CORBA.portable.ApplicationException;
+
 /*
  * Name: Caixas
  * Author: 
@@ -55,27 +57,51 @@ public class Caixas
 	/*
 	 * Adicionar Cliente ao Caixa
 	 */
-	public Boolean AdicionarCliente(float tempoAtendimento)
+	public Boolean AdicionarCliente(float tempoAtendimento) throws ApplicationException
 	{
 		Caixa caixaAberto = null;
 		Boolean retorno = false;
-		
-		caixaAberto = this.RetornarCaixaAberto();
-		if(caixaAberto != null)
-		{			
-			retorno = caixaAberto.GetFila().InserirCliente(tempoAtendimento);			
+		StringBuilder mensagemErro = new StringBuilder();		
+		try
+		{
+			if(tempoAtendimento > (this.GetTempoMaxFila() * 0.7))
+			{
+				mensagemErro.append("Tempo do cliente excede 70%% do tempo maximo de atendimento do caixa. \n"); 
+				mensagemErro.append(String.format("Informe tempo de atendimento inferior a {0}" , (this.GetTempoMaxFila() * 0.7)));
+			}
+			else
+			{
+				caixaAberto = this.RetornarCaixaAberto();
+				if(caixaAberto != null)
+				{			
+					retorno = caixaAberto.GetFila().InserirCliente(tempoAtendimento);			
+				}
+			}
+			if (mensagemErro.toString().isEmpty()) 
+			{
+				throw new ApplicationException(mensagemErro.toString(), null);
+			}
 		}
+		catch(ApplicationException ex)
+		{
+			throw ex;
+		}		
 		return retorno;			
 	}
 	
 	/*
 	 * Remover 1 cliente de cada caixa em aberto
 	 * */
-	public Boolean RemoverCliente()
+	public Boolean RemoverCliente(int numeroCaixa) throws ApplicationException
 	{
-		// Quando remover o cliente deve ser informado o caixa??		
-		for(Caixa caixa : _caixas)
+		boolean retorno = false;
+		int posicaoCaixa;
+		Caixa caixa;
+		try
 		{
+		  posicaoCaixa = ((numeroCaixa - 1));
+		  caixa = _caixas[posicaoCaixa];
+		  
 		  if(caixa.GetAberto()) //Verifica se o caixa esta aberto
 		  {
 			  if(caixa.GetFila().RemoverCliente()) // Remove o Cliente do caixa
@@ -84,10 +110,20 @@ public class Caixas
 				  {
 					  this.FecharCaixa(caixa);
 				  }
+				  retorno = true;
 			  }
 		  }
-		}		
-		return true;	
+		  else
+		  {
+			throw new ApplicationException("O caixa informado está fechado!", null);  
+		  }
+		  
+		}
+		catch(ApplicationException ex)
+		{
+			throw ex;
+		}
+		return retorno;	
 	}
 	
 	/*

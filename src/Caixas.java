@@ -43,7 +43,15 @@ public class Caixas
 	{
 		this._tempoMaxFila = _tempoMaxFila;
 	}
-		
+	
+	/*
+	 * Tempo Máximo de Atendimento da Fila
+	 * */
+	public float GetTempoMaxFila()
+	{
+		return this._tempoMaxFila; 
+	}
+	
 	/*
 	 * Adicionar Cliente ao Caixa
 	 */
@@ -133,6 +141,5 @@ public class Caixas
 	      retorno = AbrirCaixa(); 
 		}	   	   
 		return retorno;
-	}
-	
+	}	
 }

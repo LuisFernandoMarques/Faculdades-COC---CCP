@@ -15,13 +15,13 @@ public class Program {
 		do
 		{
 			StringBuilder menu = new StringBuilder();
-			menu.append("GERENCIADOR DE CAIXAS");
-			menu.append("1 - Inserir novo cliente no caixa");
-			menu.append("2 - Imprimir Tempo Maximo Atendimento");
-			menu.append("3 - Informacoes dos caixas");
-			menu.append("4 - Atender Cliente");
-			menu.append("0 - Sair");
-			menu.append("_______________________________________");
+			menu.append("GERENCIADOR DE CAIXAS \n\n");
+			menu.append("1 - Inserir novo cliente no caixa \n");
+			menu.append("2 - Imprimir Tempo Maximo Atendimento \n");
+			menu.append("3 - Informacoes dos caixas \n");
+			menu.append("4 - Atender Cliente \n");
+			menu.append("0 - Sair\n");
+			menu.append("_______________________________________\n");
 			menu.append("Digite a opcao desejada: ");
 		
 			opcaoMenu = Integer.getInteger(JOptionPane.showInputDialog(menu.toString()));
@@ -55,7 +55,10 @@ public class Program {
 		}while(opcaoMenu != 0);
 	}
 	
-	public static boolean InserirCliente()
+	/*
+	 * Procedimento responsável por inserir um cliente no caixa com menor número de atendimento
+	 * */
+	private static boolean InserirCliente()
 	{
 		int cliente = 0;
 		boolean retorno = false;
@@ -79,12 +82,16 @@ public class Program {
 		}
 		return retorno;
 	}
-	
-	public static boolean ImprimirTempoMaximoAtendimento()
+		
+	/*
+	 * Método responsável por imprimir o tempo máximo de atendimento
+	 * */
+	private static boolean ImprimirTempoMaximoAtendimento()
 	{
 		boolean retorno = false;
 		try
 		{
+			JOptionPane.showMessageDialog(null, String.format("Tempo Máximo de Atendimento dos Caixas: {0}", _caixas.GetTempoMaxFila()));
 			retorno = true;
 		}
 		catch(Exception ex)
@@ -94,11 +101,33 @@ public class Program {
 		return retorno;
 	}
 	
-	public static boolean ImprimirInformacoesCaixas()
+	/*
+	 * Método responsável por Imprimir as informação do caixas em aberto
+	 * */
+	private static boolean ImprimirInformacoesCaixas()
+	{
+		boolean retorno = false;
+		try
+		{			
+			JOptionPane.showMessageDialog(null, String.format("Informações dos Caixas abertos: \n\n {0}", _caixas.toString()));			
+			retorno = true;
+		}
+		catch(Exception ex)
+		{
+			TratarErro("Erro ao imprimir as informações dos caixas!", ex);
+		}
+		return retorno;
+	}
+	
+	/*
+	 * Método responsável por remover um cliente de uma determinado caixa
+	 * */
+	private static boolean AtenderCliente()
 	{
 		boolean retorno = false;
 		try
 		{
+			
 			
 			retorno = true;
 		}
@@ -109,23 +138,10 @@ public class Program {
 		return retorno;
 	}
 	
-	public static boolean AtenderCliente()
-	{
-		boolean retorno = false;
-		try
-		{
-			
-			
-			retorno = true;
-		}
-		catch(Exception ex)
-		{
-			TratarErro("Erro ao imprimir as informações dos caixas!", ex);
-		}
-		return retorno;
-	}
-	
-	public static void TratarErro(String message, Exception ex)
+	/*
+	 * Método responsavel pelos tratamentos de erros
+	 * */
+	private static void TratarErro(String message, Exception ex)
 	{
 		JOptionPane.showMessageDialog(null, String.format("{0} \n Erro: {1}", message, ex.getMessage()));
 	}

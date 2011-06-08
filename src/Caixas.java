@@ -91,6 +91,39 @@ public class Caixas
 	}
 	
 	/*
+	 * Retorna os dados dos caixas abertos
+	 * */	
+	@Override
+	public String toString()
+	{
+		int count = 0;
+		StringBuilder sbCaixa = new StringBuilder();
+		try
+		{
+			for(Caixa caixa : _caixas)
+			{
+			  if(caixa.GetAberto()) //Verifica se o caixa esta aberto
+			  {
+				  count++;
+				  sbCaixa.append(String.format("Caixa: {0}", count));
+				  sbCaixa.append(String.format("Tempo atual do Caixa: {0}", caixa.GetFila().TempoAtualFila()));
+				  sbCaixa.append(String.format("Tempo Médio do Caixa: {0}", caixa.GetFila().TempoMedioFila()));
+				  sbCaixa.append(String.format("Número total de pessoas no Caixa: {0}", caixa.GetFila().NumeroPessoasFila()));			  
+			  }
+			} 
+			if (count == 0)
+			{
+				sbCaixa.append("Os caixas estão fechados");
+			}								
+		}
+		catch(Exception ex) // Verificar o tratamento de erro aqui
+		{
+			ex.printStackTrace();
+		}
+		return sbCaixa.toString();
+	}
+	
+	/*
 	 * Abrir um novo caixa
 	 * */
 	private Caixa AbrirCaixa()

@@ -24,7 +24,7 @@ public class Program {
 			menu.append("_______________________________________\n");
 			menu.append("Digite a opcao desejada: ");
 		
-			opcaoMenu = Integer.getInteger(JOptionPane.showInputDialog(menu.toString()));
+			opcaoMenu = Integer.parseInt(JOptionPane.showInputDialog(menu.toString()));
 			
 			switch(opcaoMenu)
 			{
@@ -65,7 +65,7 @@ public class Program {
 		
 		try
 		{
-			cliente = Integer.getInteger(JOptionPane.showInputDialog("Informe o tempo de atendimento do cliente"));
+			cliente = Integer.parseInt(JOptionPane.showInputDialog("Informe o tempo de atendimento do cliente"));
 			if(cliente == 0 || cliente < 0)
 			{
 				JOptionPane.showMessageDialog(null, "O tempo de atendimento não é válido!");

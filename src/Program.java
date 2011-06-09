@@ -9,48 +9,60 @@ public class Program {
 	 */
 	public static void main(String[] args) 
 	{
-		int opcaoMenu = 0;
+		int opcaoMenu = 99;
+		String retornoMenu = "";
 		_caixas = new Caixas();
+				
+		StringBuilder textoMenu = new StringBuilder();
+		textoMenu.append("GERENCIADOR DE CAIXAS \n\n");
+		textoMenu.append("1 - Inserir novo cliente no caixa \n");
+		textoMenu.append("2 - Imprimir Tempo Maximo Atendimento \n");
+		textoMenu.append("3 - Informacoes dos caixas \n");
+		textoMenu.append("4 - Atender Cliente \n");
+		textoMenu.append("0 - Sair\n");
+		textoMenu.append("_______________________________________\n");
+		textoMenu.append("Digite a opcao desejada: ");		
+		
+		//Cadastra o tempo máximo de Atendimento
+		CadastrarTempoMaximoAtendimento();
 		
 		do
 		{
-			StringBuilder menu = new StringBuilder();
-			menu.append("GERENCIADOR DE CAIXAS \n\n");
-			menu.append("1 - Inserir novo cliente no caixa \n");
-			menu.append("2 - Imprimir Tempo Maximo Atendimento \n");
-			menu.append("3 - Informacoes dos caixas \n");
-			menu.append("4 - Atender Cliente \n");
-			menu.append("0 - Sair\n");
-			menu.append("_______________________________________\n");
-			menu.append("Digite a opcao desejada: ");
-		
-			opcaoMenu = Integer.parseInt(JOptionPane.showInputDialog(menu.toString()));
-			
-			switch(opcaoMenu)
+			try
 			{
-				case 1: //inserir novo cliente
-					InserirCliente();
-					break;
+				retornoMenu = JOptionPane.showInputDialog(textoMenu.toString());				
+				opcaoMenu = Integer.parseInt((retornoMenu == null ? "0" : retornoMenu));
 				
-				case 2:  //imprimir tempo máximo de atendimento
-					ImprimirTempoMaximoAtendimento();
-					break;
+				switch(opcaoMenu)
+				{
+					case 1: // Inserir novo cliente
+						InserirCliente();
+						break;
 					
-				case 3: //imprimi as informações de todos os caixas
-					ImprimirInformacoesCaixas();
-					break;
-					
-				case 4: //atender cliente
-					AtenderCliente();
-					break;
-					
-				case 0: //sair
-					JOptionPane.showMessageDialog(null, "Programa Encerrado!");
-					break;
-					
-				default:
-					JOptionPane.showMessageDialog(null, "Opção Inválida!");
-					break;
+					case 2:  // Imprimir tempo máximo de atendimento
+						ImprimirTempoMaximoAtendimento();
+						break;
+						
+					case 3: // Imprimir as informações de todos os caixas
+						ImprimirInformacoesCaixas();
+						break;
+						
+					case 4: // Atender Cliente
+						AtenderCliente();
+						break;
+						
+					case 0: // Sair
+						JOptionPane.showMessageDialog(null, "Programa Encerrado!", "Finalização", JOptionPane.INFORMATION_MESSAGE);
+						break;
+						
+					default:
+						JOptionPane.showMessageDialog(null, "Opção Inválida!", "Mensagem", JOptionPane.WARNING_MESSAGE);
+						break;
+				}
+			}
+			catch(Exception ex)
+			{
+				TratarErro("Erro no executar o menu!", ex);
 			}
 		}while(opcaoMenu != 0);
 	}
@@ -60,20 +72,30 @@ public class Program {
 	 * */
 	private static boolean InserirCliente()
 	{
-		int cliente = 0;
+		float cliente = 0;
 		boolean retorno = false;
-		
+		String retornoInput = ""; 
 		try
 		{
-			cliente = Integer.parseInt(JOptionPane.showInputDialog("Informe o tempo de atendimento do cliente"));
-			if(cliente == 0 || cliente < 0)
+			retornoInput = JOptionPane.showInputDialog("Informe o tempo de atendimento do cliente:");
+			retornoInput = (retornoInput == null ? "0": retornoInput);
+			
+			if(!Numericos.IsFloat(retornoInput))
 			{
-				JOptionPane.showMessageDialog(null, "O tempo de atendimento não é válido!");
+				JOptionPane.showMessageDialog(null, "O tempo de atendimento não é válido!", "Mensagem", JOptionPane.WARNING_MESSAGE);							
 			}
 			else
 			{
-				_caixas.AdicionarCliente(cliente);
-				retorno = true;
+				cliente = Float.parseFloat(retornoInput);
+				if(cliente == 0 || cliente < 0)
+				{
+					JOptionPane.showMessageDialog(null, "O tempo de atendimento não pode ser 0 ou menor que 0!", "Mensagem", JOptionPane.WARNING_MESSAGE);
+				}
+				else
+				{
+					_caixas.AdicionarCliente(cliente);
+					retorno = true;
+				}	
 			}
 		}
 		catch(Exception ex)
@@ -91,7 +113,7 @@ public class Program {
 		boolean retorno = false;
 		try
 		{
-			JOptionPane.showMessageDialog(null, String.format("Tempo Máximo de Atendimento dos Caixas: {0}", _caixas.GetTempoMaxFila()));
+			JOptionPane.showMessageDialog(null, String.format("Tempo Máximo de Atendimento dos Caixas: %.2f", _caixas.GetTempoMaxFila()), "Mensagem", JOptionPane.INFORMATION_MESSAGE);
 			retorno = true;
 		}
 		catch(Exception ex)
@@ -109,7 +131,7 @@ public class Program {
 		boolean retorno = false;
 		try
 		{			
-			JOptionPane.showMessageDialog(null, String.format("Informações dos Caixas abertos: \n\n {0}", _caixas.toString()));			
+			JOptionPane.showMessageDialog(null, String.format("Informações dos Caixas abertos: \n\n %s", _caixas.toString()), "Mensagem", JOptionPane.INFORMATION_MESSAGE);			
 			retorno = true;
 		}
 		catch(Exception ex)
@@ -126,32 +148,83 @@ public class Program {
 	{
 		boolean retorno = false;
 		int numeroCaixa = 0;
+		String retornoInput = ""; 
 		try
 		{
-			numeroCaixa = Integer.parseInt(JOptionPane.showInputDialog("Entre com o número do caixa?"));
-			if(numeroCaixa < 0 || numeroCaixa == 0)
+			retornoInput = JOptionPane.showInputDialog("Entre com o número do caixa?");
+			retornoInput = (retornoInput == null ? "0": retornoInput);
+			
+			if(!Numericos.IsInteger(retornoInput))
 			{
-				JOptionPane.showMessageDialog(null, "O número do caixa não pode ser 0 ou menor que 0");
-				retorno = false;
+				JOptionPane.showMessageDialog(null, "O número do caixa é inválido!", "Mensagem", JOptionPane.WARNING_MESSAGE);
 			}
 			else
 			{
-				retorno = _caixas.RemoverCliente(numeroCaixa);
-			}
+				numeroCaixa = Integer.parseInt(retornoInput);	
+				if(numeroCaixa < 0 || numeroCaixa == 0)
+				{
+					JOptionPane.showMessageDialog(null, "O número do caixa não pode ser 0 ou menor que 0");
+					retorno = false;
+				}
+				else
+				{
+					// Método responsável pela remoção do 1 cliente da fila
+					retorno = _caixas.RemoverCliente(numeroCaixa); 
+				}
+			}				
 		}
 		catch(Exception ex)
 		{
-			TratarErro(String.format("Erro ao atender o cliente do caixa: {0}", numeroCaixa), ex);
+			TratarErro(String.format("Erro ao atender o cliente do caixa: %i", numeroCaixa), ex);
 		}
 		return retorno;
 	}
 	
 	/*
-	 * Método responsavel pelos tratamentos de erros
+	 * Método responsável por armazenar o tempo máximo de Atendimento
 	 * */
-	private static void TratarErro(String message, Exception ex)
-	{
-		JOptionPane.showMessageDialog(null, String.format("{0} \n Erro: {1}", message, ex.getMessage()));
+	private static void CadastrarTempoMaximoAtendimento()
+	{			
+		String retornoInput = "";
+		float tempoMax = 0;
+		try
+		{
+			StringBuilder textoMenu = new StringBuilder();
+			textoMenu.append("CADASTRAR TEMPO MAXIMO DE ATENDIMENTO\n");
+			textoMenu.append("Informe tempo de Atendimento dos Caixas ( minutos ):");
+			
+			retornoInput = JOptionPane.showInputDialog(textoMenu.toString());
+			retornoInput = (retornoInput == null ? "0": retornoInput);
+			
+			if(!Numericos.IsFloat(retornoInput))
+			{
+				JOptionPane.showMessageDialog(null, "Tempo inválido!", "Mensagem", JOptionPane.WARNING_MESSAGE);
+			}
+			else
+			{
+				tempoMax = Float.parseFloat(retornoInput);				
+				if(tempoMax <= 0)
+				{
+				  JOptionPane.showMessageDialog(null, "Tempo inválido! Informe um tempo maior que 0", "Mensagem", JOptionPane.WARNING_MESSAGE);	
+				}
+				else
+				{
+					_caixas.SetTempoMaxFila(tempoMax); // Seta o tempo máximo da fila
+				}				
+			}		
+		}
+		catch(Exception ex)
+		{
+			TratarErro("Erro ao cadastrar o tempo máximo do Atendimento", ex);
+		}	
 	}
 	
+	/*
+	 * Método responsavel pelos tratamentos de erros
+	 * */
+	private static void TratarErro(String mensagem, Exception ex)
+	{
+		JOptionPane.showMessageDialog(null, String.format("%s \n Mensagem: %s", mensagem, ex.getMessage()), "Erro no Programa!", JOptionPane.ERROR);
+	}
+			
 }

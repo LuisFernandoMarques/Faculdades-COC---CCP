@@ -27,7 +27,8 @@ public class Caixas
 	{
 		this.NumeroCaixas = 100;
 		this._nroCaixasAberto = 0;
-		this._caixas = new Caixa[NumeroCaixas];		
+		this._caixas = new Caixa[NumeroCaixas];
+		this.InicializarCaixas();
 	}	
 	
 	/*
@@ -160,6 +161,19 @@ public class Caixas
 	}
 	
 	/*
+	 * Método respoável por inicializar os caixas com estado fechado
+	 * */
+	private void InicializarCaixas()
+	{
+		for(int count = 0; count < NumeroCaixas;count++)
+		{
+		  this._caixas[count] = new Caixa();
+		  this._caixas[count].SetAberto(false);
+		}
+		
+	}
+	
+	/*
 	 * Abrir um novo caixa
 	 * */
 	private Caixa AbrirCaixa()
@@ -195,7 +209,7 @@ public class Caixas
 		{
 			if(retorno == null)
 			{
-				retorno = caixa;	
+				retorno = caixa;
 			}
 			else
 			{

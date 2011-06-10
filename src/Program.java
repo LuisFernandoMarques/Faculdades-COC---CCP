@@ -31,7 +31,7 @@ public class Program {
 			if(!CadastrarTempoMaximoAtendimento())
 			{
 				opcaoMenu = 0; //Finaliza o programa entrada Inválida
-			}
+			}			
 			
 			do
 			{

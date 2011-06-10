@@ -21,10 +21,17 @@ public class Fila {
 	/*
 	 * Construtor da Classe
 	 * */ 
-	public Fila()
+	public Fila() throws Exception
 	{
-		this._primeiroCliente = null;
-		this._ultimoCliente = null;		
+		try
+		{
+			this._primeiroCliente = null;
+			this._ultimoCliente = null;		
+		}
+		catch(Exception ex)
+		{
+			throw ex;
+		}
 	} 
 	
 	/*
@@ -79,20 +86,27 @@ public class Fila {
 	/*
 	 * Inserir Cliente a fila
 	 * */ 
-	public Boolean InserirCliente(float tempoAtendimento) 
+	public Boolean InserirCliente(float tempoAtendimento) throws Exception 
 	{		
-		Cliente novoCliente = new Cliente(tempoAtendimento);
-		
-		if(this.FilaVazia())
+		try
 		{
-			this._primeiroCliente = novoCliente;
+			Cliente novoCliente = new Cliente(tempoAtendimento);
+			
+			if(this.FilaVazia())
+			{
+				this._primeiroCliente = novoCliente;
+			}
+			else
+			{
+				this._ultimoCliente.SetProxCliente(novoCliente);
+			}
+			this._ultimoCliente = novoCliente;	
+			return true;	
 		}
-		else
+		catch(Exception ex)
 		{
-			this._ultimoCliente.SetProxCliente(novoCliente);
-		}
-		this._ultimoCliente = novoCliente;				
-		return true;
+		 throw ex;	
+		}	
 	}
 	
 	/*

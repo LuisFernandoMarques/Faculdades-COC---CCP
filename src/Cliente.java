@@ -20,10 +20,17 @@ public class Cliente
   /*
    * Construtor da classe Cliente
    * */
-  public Cliente(float tempoAtendimento)
+  public Cliente(float tempoAtendimento) throws Exception
   {
-	 this._proxCliente = null; 
-	 this.SetTempoAtendimento(tempoAtendimento);
+	  try
+	  {
+		 this._proxCliente = null; 
+		 this.SetTempoAtendimento(tempoAtendimento);
+	  }
+	  catch(Exception ex)
+	  {
+		  throw ex;
+	  }	
   }
 
   /*

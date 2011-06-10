@@ -23,12 +23,19 @@ public class Caixas
 	/*
 	 * Construtor da classe Caixas
 	 * */
-	public Caixas()
+	public Caixas() throws Exception
 	{
-		this.NumeroCaixas = 100;
-		this._nroCaixasAberto = 0;
-		this._caixas = new Caixa[NumeroCaixas];
-		this.InicializarCaixas();
+		try
+		{
+			this.NumeroCaixas = 100;
+			this._nroCaixasAberto = 0;
+			this._caixas = new Caixa[NumeroCaixas];
+			this.InicializarCaixas();
+		}
+		catch(Exception ex)
+		{
+			throw ex;
+		}		
 	}	
 	
 	/*
@@ -58,7 +65,7 @@ public class Caixas
 	/*
 	 * Adicionar Cliente ao Caixa
 	 */
-	public Boolean AdicionarCliente(float tempoAtendimento) throws ApplicationException
+	public Boolean AdicionarCliente(float tempoAtendimento) throws Exception
 	{
 		Caixa caixaAberto = null;
 		Boolean retorno = false;
@@ -163,14 +170,21 @@ public class Caixas
 	/*
 	 * Método respoável por inicializar os caixas com estado fechado
 	 * */
-	private void InicializarCaixas()
+	private void InicializarCaixas() throws Exception
 	{
-		for(int count = 0; count < NumeroCaixas;count++)
+		try
 		{
-		  this._caixas[count] = new Caixa();
-		  this._caixas[count].SetAberto(false);
+			for(int count = 0; count < NumeroCaixas;count++)
+			{
+			  this._caixas[count] = new Caixa();
+			  this._caixas[count].SetAberto(false);
+			}
+				
 		}
-		
+		catch(Exception ex)
+		{
+			throw ex;	
+		}		
 	}
 	
 	/*

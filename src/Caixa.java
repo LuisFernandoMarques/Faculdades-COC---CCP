@@ -18,10 +18,17 @@ public class Caixa
 	/*
 	 * Construtor da classe Caixa
 	 * */
-	public Caixa()
+	public Caixa() throws Exception
 	{
-		this._fila = new Fila();
-		this._aberto = false;
+		try
+		{
+			this._fila = new Fila();
+			this._aberto = false;
+		}
+		catch(Exception ex)
+		{
+			throw ex;
+		}		
 	}
 	
 	/*

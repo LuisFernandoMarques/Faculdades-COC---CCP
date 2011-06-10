@@ -11,8 +11,7 @@ public class Program {
 	{
 		int opcaoMenu = 99;
 		String retornoMenu = "";
-		_caixas = new Caixas();
-				
+					
 		StringBuilder textoMenu = new StringBuilder();
 		textoMenu.append("GERENCIADOR DE CAIXAS \n\n");
 		textoMenu.append("1 - Inserir novo cliente no caixa \n");
@@ -23,48 +22,61 @@ public class Program {
 		textoMenu.append("_______________________________________\n");
 		textoMenu.append("Digite a opcao desejada: ");		
 		
-		//Cadastra o tempo máximo de Atendimento
-		CadastrarTempoMaximoAtendimento();
-		
-		do
-		{
-			try
+		try
+		{			
+			// Inicialização dos Caixas
+			_caixas = new Caixas();
+			
+			//Cadastra o tempo máximo de Atendimento
+			if(!CadastrarTempoMaximoAtendimento())
 			{
-				retornoMenu = JOptionPane.showInputDialog(textoMenu.toString());				
-				opcaoMenu = Integer.parseInt((retornoMenu == null ? "0" : retornoMenu));
-				
-				switch(opcaoMenu)
+				opcaoMenu = 0; //Finaliza o programa entrada Inválida
+			}
+			
+			do
+			{
+				try
 				{
-					case 1: // Inserir novo cliente
-						InserirCliente();
-						break;
+					retornoMenu = JOptionPane.showInputDialog(textoMenu.toString());				
+					opcaoMenu = Integer.parseInt((retornoMenu == null ? "0" : retornoMenu));
 					
-					case 2:  // Imprimir tempo máximo de atendimento
-						ImprimirTempoMaximoAtendimento();
-						break;
+					switch(opcaoMenu)
+					{
+						case 1: // Inserir novo cliente
+							InserirCliente();
+							break;
 						
-					case 3: // Imprimir as informações de todos os caixas
-						ImprimirInformacoesCaixas();
-						break;
-						
-					case 4: // Atender Cliente
-						AtenderCliente();
-						break;
-						
-					case 0: // Sair
-						JOptionPane.showMessageDialog(null, "Programa Encerrado!", "Finalização", JOptionPane.INFORMATION_MESSAGE);
-						break;
-						
-					default:
-						JOptionPane.showMessageDialog(null, "Opção Inválida!", "Mensagem", JOptionPane.WARNING_MESSAGE);
-						break;
+						case 2:  // Imprimir tempo máximo de atendimento
+							ImprimirTempoMaximoAtendimento();
+							break;
+							
+						case 3: // Imprimir as informações de todos os caixas
+							ImprimirInformacoesCaixas();
+							break;
+							
+						case 4: // Atender Cliente
+							AtenderCliente();
+							break;
+							
+						case 0: // Sair
+							JOptionPane.showMessageDialog(null, "Programa Encerrado!", "Finalização", JOptionPane.INFORMATION_MESSAGE);
+							break;
+							
+						default:
+							JOptionPane.showMessageDialog(null, "Opção Inválida!", "Mensagem", JOptionPane.WARNING_MESSAGE);
+							break;
+					}
 				}
-			}
-			catch(Exception ex)
-			{
-				TratarErro("Erro no executar o menu!", ex);
-			}
-		}while(opcaoMenu != 0);
+				catch(Exception ex)
+				{
+					TratarErro("Erro no executar o menu!", ex);
+				}
+			}while(opcaoMenu != 0);
+		}
+		catch(Exception ex)
+		{
+			TratarErro("Erro no executar o programa!", ex);
+		}
 	}
 	
 	/*
@@ -183,8 +195,9 @@ public class Program {
 	/*
 	 * Método responsável por armazenar o tempo máximo de Atendimento
 	 * */
-	private static void CadastrarTempoMaximoAtendimento()
+	private static boolean CadastrarTempoMaximoAtendimento()
 	{			
+		boolean retorno = false;
 		String retornoInput = "";
 		float tempoMax = 0;
 		try
@@ -210,13 +223,15 @@ public class Program {
 				else
 				{
 					_caixas.SetTempoMaxFila(tempoMax); // Seta o tempo máximo da fila
+					retorno = true;
 				}				
-			}		
+			}					
 		}
 		catch(Exception ex)
 		{
 			TratarErro("Erro ao cadastrar o tempo máximo do Atendimento", ex);
 		}	
+		return retorno;
 	}
 	
 	/*

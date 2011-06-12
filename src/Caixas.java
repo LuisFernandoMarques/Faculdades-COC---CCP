@@ -74,12 +74,12 @@ public class Caixas
 		{
 			if(tempoAtendimento > (this.GetTempoMaxFila() * 0.7))
 			{
-				mensagemErro.append("Tempo do cliente excede 70%% do tempo maximo de atendimento do caixa. \n"); 
-				mensagemErro.append(String.format("Informe tempo de atendimento inferior a {0}" , (this.GetTempoMaxFila() * 0.7)));
+				mensagemErro.append("Tempo do cliente excede 70% do tempo máximo de atendimento do caixa. \n"); 
+				mensagemErro.append(String.format("Informe tempo de atendimento inferior a %.2f" , (this.GetTempoMaxFila() * 0.7)));
 			}
 			else
 			{
-				caixaAberto = this.RetornarCaixaAberto();
+				caixaAberto = this.RetornarCaixaAberto(tempoAtendimento);
 				if(caixaAberto != null)
 				{			
 					retorno = caixaAberto.GetFila().InserirCliente(tempoAtendimento);			
@@ -100,14 +100,14 @@ public class Caixas
 	/*
 	 * Remover 1 cliente de cada caixa em aberto
 	 * */
-	public Boolean RemoverCliente(int numeroCaixa) throws Exception
+	public Boolean RemoverCliente(int codigoCaixa) throws Exception
 	{
 		boolean retorno = false;
 		int posicaoCaixa;
 		Caixa caixa;
 		try
 		{
-		  posicaoCaixa = ((numeroCaixa - 1));
+		  posicaoCaixa = ((codigoCaixa - 1));
 		  caixa = _caixas[posicaoCaixa];
 		  
 		  if(caixa.GetAberto()) //Verifica se o caixa esta aberto
@@ -149,7 +149,7 @@ public class Caixas
 				if(caixa.GetAberto())
 				{
 					count++;
-					sbCaixa.append(String.format("Caixa: %d \n", count));
+					sbCaixa.append(String.format("Caixa: %d \n", caixa.GetCodigoCaixa()));
 					sbCaixa.append(String.format("Tempo atual do Caixa: %.2f \n", caixa.GetFila().TempoAtualFila()));
 					sbCaixa.append(String.format("Tempo Médio do Caixa: %.2f \n", caixa.GetFila().TempoMedioFila()));
 					sbCaixa.append(String.format("Número total de pessoas no Caixa: %d \n", caixa.GetFila().NumeroPessoasFila()));
@@ -169,16 +169,17 @@ public class Caixas
 	}
 	
 	/*
-	 * Método respoável por inicializar os caixas com estado fechado
+	 * Método responsável por inicializar os caixas com estado fechado
 	 * */
 	private void InicializarCaixas() throws Exception
 	{
+		int codigoCaixa = 0;
 		try
 		{
 			for(int count = 0; count < NumeroCaixas;count++)
 			{
-			  this._caixas[count] = new Caixa();
-			  this._caixas[count].SetAberto(false);
+			  codigoCaixa = (count + 1);
+			  this._caixas[count] = new Caixa(codigoCaixa);
 			}
 				
 		}
@@ -217,22 +218,33 @@ public class Caixas
 	/*
 	 * Retorna Caixa Aberto com menor tempo de atendimento
 	 * */
-	private Caixa RetornarCaixaAberto() throws Exception
+	private Caixa RetornarCaixaAberto(float tempoAtendimento) throws Exception
 	{		
 		Caixa retorno = null;
 		try
 		{
 			for(Caixa caixa : _caixas)
 			{
+				
 				if(retorno == null)
 				{
 					retorno = caixa;
 				}
 				else
 				{
-					if(caixa.GetFila().TempoAtualFila() < retorno.GetFila().TempoAtualFila())
+					if((retorno.GetFila().TempoAtualFila() + tempoAtendimento) > this.GetTempoMaxFila())
 					{
-						retorno = caixa; 
+						retorno = caixa;
+					}
+					else
+					{
+						if(caixa.GetAberto()) //Somente se o caixa estiver aberto
+						{
+							if(caixa.GetFila().TempoAtualFila() < retorno.GetFila().TempoAtualFila())
+							{
+								retorno = caixa; 
+							}	
+						}	
 					}
 				}
 			}

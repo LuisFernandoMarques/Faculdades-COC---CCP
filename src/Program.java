@@ -160,7 +160,7 @@ public class Program {
 	private static boolean AtenderCliente()
 	{
 		boolean retorno = false;
-		int numeroCaixa = 0;
+		int codigoCaixa = 0;
 		String retornoInput = ""; 
 		try
 		{
@@ -173,8 +173,8 @@ public class Program {
 			}
 			else
 			{
-				numeroCaixa = Integer.parseInt(retornoInput);	
-				if(numeroCaixa < 0 || numeroCaixa == 0)
+				codigoCaixa = Integer.parseInt(retornoInput);	
+				if(codigoCaixa < 0 || codigoCaixa == 0)
 				{
 					JOptionPane.showMessageDialog(null, "O número do caixa não pode ser 0 ou menor que 0");
 					retorno = false;
@@ -182,13 +182,13 @@ public class Program {
 				else
 				{
 					// Método responsável pela remoção do 1 cliente da fila
-					retorno = _caixas.RemoverCliente(numeroCaixa); 
+					retorno = _caixas.RemoverCliente(codigoCaixa); 
 				}
 			}				
 		}
 		catch(Exception ex)
 		{
-			TratarErro(String.format("Erro ao atender o cliente do caixa: %i", numeroCaixa), ex);
+			TratarErro(String.format("Erro ao atender o cliente do caixa: %i", codigoCaixa), ex);
 		}
 		return retorno;
 	}
@@ -240,7 +240,9 @@ public class Program {
 	 * */
 	private static void TratarErro(String mensagem, Exception ex)
 	{
-		JOptionPane.showMessageDialog(null, String.format("%s \n Mensagem: %s", mensagem, ex.getMessage()), "Erro no Programa!", JOptionPane.ERROR);
+		String message;
+		message = String.format("%s\nMensagem:\n%s", mensagem, ex.getMessage());
+		JOptionPane.showMessageDialog(null, message, "Erro no Programa!", JOptionPane.ERROR_MESSAGE);
 	}
 			
 }

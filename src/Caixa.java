@@ -14,16 +14,18 @@ public class Caixa
 {	
 	private Fila _fila;
 	private Boolean _aberto;
+	private int _codigoCaixa;
 	
 	/*
 	 * Construtor da classe Caixa
 	 * */
-	public Caixa() throws Exception
+	public Caixa(int codigoCaixa) throws Exception
 	{
 		try
 		{
 			this._fila = new Fila();
 			this._aberto = false;
+			this._codigoCaixa = codigoCaixa;
 		}
 		catch(Exception ex)
 		{
@@ -54,6 +56,14 @@ public class Caixa
 	{
 
 		return this._aberto;
+	}
+
+	/*
+	 * Retorno o código do Caixa
+	 * */
+	public int GetCodigoCaixa() 
+	{
+		return this._codigoCaixa;
 	}	
 	
 }

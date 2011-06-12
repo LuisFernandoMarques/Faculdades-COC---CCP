@@ -84,6 +84,10 @@ public class Caixas
 				{			
 					retorno = caixaAberto.GetFila().InserirCliente(tempoAtendimento);			
 				}
+				else
+				{
+					mensagemErro.append("Número de caixas excedidos!");
+				}
 			}
 			if (!mensagemErro.toString().isEmpty()) // Se ocorreu erro  
 			{

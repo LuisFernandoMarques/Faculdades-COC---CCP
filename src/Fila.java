@@ -7,7 +7,7 @@
  * 		Marcos Diego de Azevedo
  * Date: 01/06/2011
  * Description:
- * 	 Classe responsavel por definir o tipo fila 
+ * 	 Classe responsável por definir o tipo fila 
  */
 
 public class Fila {
@@ -136,27 +136,41 @@ public class Fila {
 	/*
 	 * Tempo Médio de Atendimento da fila
 	 * */
-	public float TempoMedioFila() 
+	public float TempoMedioFila() throws Exception 
 	{		
-		return (this.TempoAtualFila() / this.NumeroPessoasFila());
+		float tempoMedio = 0F;
+		try
+		{
+			tempoMedio =(this.TempoAtualFila() / this.NumeroPessoasFila()); 
+		}catch(Exception ex)
+		{
+			throw ex;
+		}
+		return tempoMedio;
 	}
 	
 	/*
 	 * Tempo Atual de Atendimento da Fila
 	 * */
-	public float TempoAtualFila() 
+	public float TempoAtualFila() throws Exception 
 	{
 		float tempoTotal = 0F;		
-		Cliente cliente = null;	
-		  
-		if(!this.FilaVazia())
-		{			   
-		  cliente = this._primeiroCliente;
-		  while(cliente != null)
-	      {
-			 tempoTotal += cliente.GetTempoAtendimento(); 
-			 cliente = cliente.GetProxCliente();
-		  }  
+		Cliente cliente = null;
+		try
+		{
+			if(!this.FilaVazia())
+			{			   
+			  cliente = this._primeiroCliente;
+			  while(cliente != null)
+		      {
+				 tempoTotal += cliente.GetTempoAtendimento(); 
+				 cliente = cliente.GetProxCliente();
+			  }  
+			}	
+		}
+		catch(Exception ex)
+		{
+			throw ex;
 		}
 		return tempoTotal;
 	}

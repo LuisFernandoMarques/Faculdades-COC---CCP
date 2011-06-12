@@ -7,7 +7,7 @@
  * 		Marcos Diego de Azevedo
  * Date: 01/06/2011
  * Description:
- * 	 Classe responsavel por definir o tipo Caixa
+ * 	 Classe responsável por definir o tipo Caixa
  */
 
 public class Caixa 

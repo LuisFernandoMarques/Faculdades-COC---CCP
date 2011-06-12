@@ -1,5 +1,3 @@
-import org.omg.CORBA.portable.ApplicationException;
-
 /*
  * Name: Caixas
  * Author: 
@@ -27,10 +25,12 @@ public class Caixas
 	{
 		try
 		{
-			this.NumeroCaixas = 100;
-			this._nroCaixasAberto = 0;
+			this.NumeroCaixas = 10;  // Define o número total de Caixas
+			this._nroCaixasAberto = 0; // Define o número total de caixas abertos
+			
+			// Iniciliaza todos os caixas com status fechado
 			this._caixas = new Caixa[NumeroCaixas];
-			this.InicializarCaixas();
+			this.InicializarCaixas(); 
 		}
 		catch(Exception ex)
 		{
@@ -85,12 +85,12 @@ public class Caixas
 					retorno = caixaAberto.GetFila().InserirCliente(tempoAtendimento);			
 				}
 			}
-			if (mensagemErro.toString().isEmpty()) 
+			if (!mensagemErro.toString().isEmpty()) // Se ocorreu erro  
 			{
-				throw new ApplicationException(mensagemErro.toString(), null);
+				throw new Exception(mensagemErro.toString(), null);
 			}
 		}
-		catch(ApplicationException ex)
+		catch(Exception ex)
 		{
 			throw ex;
 		}		
@@ -100,7 +100,7 @@ public class Caixas
 	/*
 	 * Remover 1 cliente de cada caixa em aberto
 	 * */
-	public Boolean RemoverCliente(int numeroCaixa) throws ApplicationException
+	public Boolean RemoverCliente(int numeroCaixa) throws Exception
 	{
 		boolean retorno = false;
 		int posicaoCaixa;
@@ -123,11 +123,11 @@ public class Caixas
 		  }
 		  else
 		  {
-			throw new ApplicationException("O caixa informado está fechado!", null);  
+			throw new Exception("O caixa informado está fechado!", null);  
 		  }
 		  
 		}
-		catch(ApplicationException ex)
+		catch(Exception ex)
 		{
 			throw ex;
 		}
@@ -146,18 +146,19 @@ public class Caixas
 		{
 			for(Caixa caixa : _caixas)
 			{
-			  if(caixa.GetAberto()) //Verifica se o caixa esta aberto
-			  {
-				  count++;
-				  sbCaixa.append(String.format("Caixa: {0}", count));
-				  sbCaixa.append(String.format("Tempo atual do Caixa: {0}", caixa.GetFila().TempoAtualFila()));
-				  sbCaixa.append(String.format("Tempo Médio do Caixa: {0}", caixa.GetFila().TempoMedioFila()));
-				  sbCaixa.append(String.format("Número total de pessoas no Caixa: {0}", caixa.GetFila().NumeroPessoasFila()));			  
-			  }
+				if(caixa.GetAberto())
+				{
+					count++;
+					sbCaixa.append(String.format("Caixa: %d \n", count));
+					sbCaixa.append(String.format("Tempo atual do Caixa: %.2f \n", caixa.GetFila().TempoAtualFila()));
+					sbCaixa.append(String.format("Tempo Médio do Caixa: %.2f \n", caixa.GetFila().TempoMedioFila()));
+					sbCaixa.append(String.format("Número total de pessoas no Caixa: %d \n", caixa.GetFila().NumeroPessoasFila()));
+					sbCaixa.append(String.format("Tempo Máximo de Atendimento dos Caixas: %.2f \n\n", this.GetTempoMaxFila()));
+				}
 			} 
 			if (count == 0)
 			{
-				sbCaixa.append("Os caixas estão fechados");
+				sbCaixa.append("Todos os caixas estão fechados!");
 			}								
 		}
 		catch(Exception ex) // Verificar o tratamento de erro aqui
@@ -216,27 +217,48 @@ public class Caixas
 	/*
 	 * Retorna Caixa Aberto com menor tempo de atendimento
 	 * */
-	private Caixa RetornarCaixaAberto()
+	private Caixa RetornarCaixaAberto() throws Exception
 	{		
 		Caixa retorno = null;
-		for(Caixa caixa : _caixas)
+		try
 		{
-			if(retorno == null)
+			for(Caixa caixa : _caixas)
 			{
-				retorno = caixa;
+				if(retorno == null)
+				{
+					retorno = caixa;
+				}
+				else
+				{
+					if(caixa.GetFila().TempoAtualFila() < retorno.GetFila().TempoAtualFila())
+					{
+						retorno = caixa; 
+					}
+				}
+			}
+			if(retorno != null)
+			{
+				if(!retorno.GetAberto())
+				{
+					retorno = AbrirCaixa();
+				}
+				else
+				{
+					if(retorno.GetFila().TempoAtualFila() >= this._tempoMaxFila)
+					{
+				      retorno = AbrirCaixa(); 
+					}	
+				}	
 			}
 			else
 			{
-				if(caixa.GetFila().TempoAtualFila() < retorno.GetFila().TempoAtualFila())
-				{
-					retorno = caixa; 
-				}
+				throw new Exception("Número de caixas excedidos!");
 			}
 		}
-		if(retorno.GetFila().TempoAtualFila() >= this._tempoMaxFila)
+		catch(Exception ex)
 		{
-	      retorno = AbrirCaixa(); 
-		}	   	   
+			throw ex;
+		}
 		return retorno;
 	}	
 }

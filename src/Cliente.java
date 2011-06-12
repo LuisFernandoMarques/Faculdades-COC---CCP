@@ -7,9 +7,8 @@
  * 		Marcos Diego de Azevedo
  * Date: 01/06/2011
  * Description:
- * 	 Classe responsavel por definir o tipo Cliente
+ * 	 Classe responsável por definir o tipo Cliente
  */
-
 
 public class Cliente 
 {

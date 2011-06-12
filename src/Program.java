@@ -11,7 +11,8 @@ public class Program {
 	{
 		int opcaoMenu = 99;
 		String retornoMenu = "";
-					
+		boolean cadastrouTempoMaximo = false;
+		
 		StringBuilder textoMenu = new StringBuilder();
 		textoMenu.append("GERENCIADOR DE CAIXAS \n\n");
 		textoMenu.append("1 - Inserir novo cliente no caixa \n");
@@ -27,50 +28,50 @@ public class Program {
 			// Inicialização dos Caixas
 			_caixas = new Caixas();
 			
-			//Cadastra o tempo máximo de Atendimento
-			if(!CadastrarTempoMaximoAtendimento())
-			{
-				opcaoMenu = 0; //Finaliza o programa entrada Inválida
-			}			
-			
+			// Cadastrar o tempo máximo de Atendimento
+			cadastrouTempoMaximo = CadastrarTempoMaximoAtendimento();
 			do
 			{
-				try
+				if(cadastrouTempoMaximo)
 				{
-					retornoMenu = JOptionPane.showInputDialog(textoMenu.toString());				
-					opcaoMenu = Integer.parseInt((retornoMenu == null ? "0" : retornoMenu));
-					
-					switch(opcaoMenu)
+					retornoMenu = JOptionPane.showInputDialog(textoMenu.toString());
+					retornoMenu = (retornoMenu == null ? "0" : retornoMenu);
+					if(Numericos.IsInteger(retornoMenu))
 					{
-						case 1: // Inserir novo cliente
-							InserirCliente();
-							break;
-						
-						case 2:  // Imprimir tempo máximo de atendimento
-							ImprimirTempoMaximoAtendimento();
-							break;
-							
-						case 3: // Imprimir as informações de todos os caixas
-							ImprimirInformacoesCaixas();
-							break;
-							
-						case 4: // Atender Cliente
-							AtenderCliente();
-							break;
-							
-						case 0: // Sair
-							JOptionPane.showMessageDialog(null, "Programa Encerrado!", "Finalização", JOptionPane.INFORMATION_MESSAGE);
-							break;
-							
-						default:
-							JOptionPane.showMessageDialog(null, "Opção Inválida!", "Mensagem", JOptionPane.WARNING_MESSAGE);
-							break;
-					}
+						opcaoMenu = Integer.parseInt(retornoMenu);
+					}	
 				}
-				catch(Exception ex)
+				else
 				{
-					TratarErro("Erro no executar o menu!", ex);
-				}
+					opcaoMenu = 0; //Finalizar o programa;
+				}									
+					
+				switch(opcaoMenu)
+				{
+					case 1: // Inserir novo cliente
+						InserirCliente();
+						break;
+						
+					case 2:  // Imprimir tempo máximo de atendimento
+						ImprimirTempoMaximoAtendimento();
+						break;
+							
+					case 3: // Imprimir as informações de todos os caixas
+						ImprimirInformacoesCaixas();
+						break;
+							
+					case 4: // Atender Cliente
+						AtenderCliente();
+						break;
+						
+					case 0: // Sair
+						JOptionPane.showMessageDialog(null, "Programa Encerrado!", "Finalização", JOptionPane.INFORMATION_MESSAGE);
+						break;
+						
+					default:
+						JOptionPane.showMessageDialog(null, "Opção Inválida!", "Mensagem", JOptionPane.WARNING_MESSAGE);
+						break;
+				}			
 			}while(opcaoMenu != 0);
 		}
 		catch(Exception ex)
